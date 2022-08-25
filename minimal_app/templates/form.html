@@ -1,0 +1,74 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+       <div class="row">
+           <div class="col-md-12">
+        <form action="#" id="userform">
+            <div class="form-group"  style="display:none">
+             <input type="hidden"  name="id" id="id" value="{{user.get('id','')}}">
+           </div>
+          <div class="form-group">
+             <label for="name">Name</label>
+             <input type="text" maxlength="50"  required class="form-control" name="name" id="name" value="{{user.get('name','')}}">
+           </div>
+            <div class="form-group">
+             <label for="id">Number</label>
+             <input type="text" maxlength="10" required class="form-control" name="number" id="number" value="{{user.get('number','')}}">
+           </div>
+
+            <div class="form-group">
+                <button type="submit" id="btn-submit" class="btn btn-primary">submit</button>
+                <a href="/" class="btn btn-gray">Cancel</a>
+            </div>
+        </form>
+           </div>
+
+           {% if message %}
+            <div class="alert alert-{{type}}" role="alert">
+                    {{message}}
+            </div>
+           {% endif %}
+
+       </div>
+{% endblock %}
+
+{% block script%}
+<script>
+    $( document ).ready(function() {
+
+      function convertFormToJSON(form) {
+          const array = $(form).serializeArray(); // Encodes the set of form elements as an array of names and values.
+          const json = {};
+          $.each(array, function () {
+            json[this.name] = this.value || "";
+          });
+          return json;
+        }
+
+
+    $("#userform").submit(function(e) {
+        e.preventDefault();
+        var actionurl = "/api/user"
+
+        data=convertFormToJSON($("#userform"));
+        var method = data.id ? "put": "post";
+        debugger;
+        $.ajax({
+                url: actionurl,
+                type: method,
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function(data) {
+                    alert('SUCCESS');
+                    window.location.href = "/";
+                },
+                error:   function(jqXHR, textStatus, errorThrown) {
+                        alert("Failed :" + jqXHR.responseJSON.Message);
+                        }
+                });
+                });
+
+ });
+</script>
+{%endblock%}

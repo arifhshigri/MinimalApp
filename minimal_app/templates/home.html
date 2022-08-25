@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+       <div class="row">
+           <div class="col-md-12">
+                <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Number</th>
+      <th scope="col"><a href="/create" class="btn btn-primary">Add</a></th>
+    </tr>
+  </thead>
+  <tbody>
+      {% for user in users %}
+        <tr>
+            <td>{{user["name"]}}</td>
+            <td>{{user["number"]}}</td>
+            <td><a href="/update/{{user['id']}}">Edit</a></td>
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>
+                {% if message %}
+            <div class="alert alert-{{type}}" role="alert">
+                    {{message}}
+            </div>
+           {% endif %}
+           </div>
+       </div>
+{% endblock %}
+
+
+{% block script%}
+<script>
+    $( document ).ready(function() {
+});
+</script>
+{%endblock%}
